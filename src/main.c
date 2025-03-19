@@ -21,6 +21,14 @@ static System sys = {
   .quit = FALSE,
 };
 
+typedef struct {
+  Uint32* wall;
+} Texture;
+
+static Texture texture = {
+  .wall = NULL,
+};
+
 void initialize_window(void) {
   ASSERT(!SDL_Init(SDL_INIT_EVERYTHING), "Error initializing SDL. %s", SDL_GetError());
 
@@ -42,6 +50,7 @@ void initialize_window(void) {
 
 void destroy_window() {
   free(sys.color_buffer);
+  free(texture.wall);
   SDL_DestroyTexture(sys.color_buffer_texture);
   SDL_DestroyRenderer(sys.renderer);
   SDL_DestroyWindow(sys.window);
@@ -304,14 +313,14 @@ void cast_ray(float ray_angle, int ray_index) {
     rays[ray_index].wall_hit_x = horz_wall_hit_x;
     rays[ray_index].wall_hit_y = horz_wall_hit_y;
     rays[ray_index].distance = horz_hit_distance;
-    rays[ray_index].was_hit_vert = TRUE;
+    rays[ray_index].was_hit_vert = FALSE;
   }
   else {
     rays[ray_index].wall_hit_content = vert_wall_content;
     rays[ray_index].wall_hit_x = vert_wall_hit_x;
     rays[ray_index].wall_hit_y = vert_wall_hit_y;
     rays[ray_index].distance = vert_hit_distance;
-    rays[ray_index].was_hit_vert = FALSE;
+    rays[ray_index].was_hit_vert = TRUE;
   }
 
   rays[ray_index].angle = ray_angle;
@@ -330,6 +339,21 @@ void cast_all_rays() {
   }
 }
 
+Uint32 darken_color(Uint32 hex_color, float factor) {
+  if (factor < 0.0f) factor = 0.0f;
+  if (factor > 1.0f) factor = 1.0f;
+
+  uint8_t r = (hex_color >> 16) & 0xFF;
+  uint8_t g = (hex_color >> 8) & 0xFF;
+  uint8_t b = hex_color & 0xFF;
+
+  r = (uint8_t)(r * (1.0f - factor));
+  g = (uint8_t)(g * (1.0f - factor));
+  b = (uint8_t)(b * (1.0f - factor));
+
+  return (hex_color & 0xFF000000) | (r << 16) | (g << 8) | b;
+}
+
 void generate_wall_projection() {
   for (int x = 0; x < NUM_RAYS; x++) {
     float ray_distance = rays[x].distance * cos(rays[x].angle - player.rotation_angle);
@@ -345,18 +369,32 @@ void generate_wall_projection() {
     wall_bottom_pixel = wall_bottom_pixel > WINDOW_HEIGHT ? WINDOW_HEIGHT : wall_bottom_pixel;
 
     for (int y = 0; y < wall_top_pixel; y++) {
-      sys.color_buffer[(WINDOW_WIDTH * y) + x] =  0xFFAAAAAA;
+      sys.color_buffer[(WINDOW_WIDTH * y) + x] = 0xFFAAAAAA;
+    }
+
+    int texture_offset_x;
+
+    if (rays[x].was_hit_vert) {
+      texture_offset_x = (int)rays[x].wall_hit_y % TILE_SIZE;
+    }
+    else {
+      texture_offset_x = (int)rays[x].wall_hit_x % TILE_SIZE;
     }
 
     for (int y = wall_top_pixel; y < wall_bottom_pixel; y++) {
-      sys.color_buffer[(WINDOW_WIDTH * y) + x] = rays[x].was_hit_vert ? 0xFFFFFFFF : 0xFFCCCCCC;
+      int distance_from_top = y + (wall_height / 2) - (WINDOW_HEIGHT / 2);
+      int texture_offset_y = distance_from_top * ((float)TEXTURE_HEIGHT / wall_height);
+      Uint32 texet_color = texture.wall[(TEXTURE_WIDTH * texture_offset_y) + texture_offset_x];
+      sys.color_buffer[(WINDOW_WIDTH * y) + x] = rays[x].was_hit_vert ? darken_color(texet_color, 0.4) : texet_color;
     }
 
     for (int y = wall_bottom_pixel; y < WINDOW_HEIGHT; y++) {
-      sys.color_buffer[(WINDOW_WIDTH * y) + x] =  0xFF333333;
-    } 
+      sys.color_buffer[(WINDOW_WIDTH * y) + x] = 0xFF333333;
+    }
   }
 }
+
+
 
 void render_rays() {
   SDL_SetRenderDrawColor(sys.renderer, 0, 204, 102, 255);
@@ -451,6 +489,14 @@ void setup() {
     WINDOW_WIDTH,
     WINDOW_HEIGHT
   );
+
+  texture.wall = (Uint32*)malloc(sizeof(Uint32) * (Uint32)TEXTURE_WIDTH * (Uint32)TEXTURE_HEIGHT);
+
+  for (int x = 0; x < TEXTURE_WIDTH; x++) {
+    for (int y = 0; y < TEXTURE_HEIGHT; y++) {
+      texture.wall[(TEXTURE_WIDTH * y) + x] = (x % 8 && y % 8) ? 0xFFFF00FF : 0xFF000000;
+    }
+  }
 };
 
 void update() {

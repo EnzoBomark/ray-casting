@@ -19,3 +19,6 @@
 
 #define FPS 120
 #define FRAME_TARGET_TIME (1000 / FPS)
+
+#define TEXTURE_WIDTH 64
+#define TEXTURE_HEIGHT 64
