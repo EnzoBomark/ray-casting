@@ -16,6 +16,8 @@ typedef struct {
   float viewbob_offset;
   int walk_direction; // -1 => back, +1 => front
   int strafe_direction; // -1 => left, +1 => right
+  float move_dx;
+  float move_dy;
 } player_t;
 
 extern player_t player;
