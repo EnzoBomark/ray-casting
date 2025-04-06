@@ -3,9 +3,9 @@
 
 #include "defs.h"
 #include "graphics.h"
-#include "player.h"
 #include "texture.h"
 #include "utils.h"
+#include "player.h"
 #include "ray.h"
 
 typedef struct {
@@ -17,7 +17,7 @@ typedef struct {
   int texture;
 } sprite_t;
 
-void render_sprite_projection(float viewbob_offset_y);
+void render_sprite_projection(void);
 void render_map_sprites(void);
 
 #endif

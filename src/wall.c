@@ -11,7 +11,7 @@ void change_color_intensity(color_t* color, float factor) {
   *color = a | (r & 0x00FF0000) | (g & 0x0000FF00) | (b & 0x000000FF);
 }
 
-void render_wall_projection(float viewbob_offset_y) {
+void render_wall_projection(void) {
 
   for (int x = 0; x < NUM_RAYS; x++) {
     // calculate the perpendicular distance to avoid the fish-eye distortion
@@ -19,10 +19,10 @@ void render_wall_projection(float viewbob_offset_y) {
 
     float wall_height = (TILE_SIZE / perp_distance) * DIST_PROJ_PLANE;
 
-    int wall_top_y = (WINDOW_HEIGHT / 2) - (wall_height / 2) + viewbob_offset_y;
+    int wall_top_y = (WINDOW_HEIGHT / 2) - (wall_height / 2) + player.viewbob_offset;
     wall_top_y = wall_top_y < 0 ? 0 : wall_top_y;
 
-    int wall_bottom_y = (WINDOW_HEIGHT / 2) + (wall_height / 2) + viewbob_offset_y;
+    int wall_bottom_y = (WINDOW_HEIGHT / 2) + (wall_height / 2) + player.viewbob_offset;
     wall_bottom_y = wall_bottom_y > WINDOW_HEIGHT ? WINDOW_HEIGHT : wall_bottom_y;
 
     // set the color of the ceiling
@@ -46,7 +46,7 @@ void render_wall_projection(float viewbob_offset_y) {
 
     // render the wall from wall_top_y to wall_bottom_y
     for (int y = wall_top_y; y < wall_bottom_y; y++) {
-      int distance_from_top = y + (wall_height / 2) - (WINDOW_HEIGHT / 2) - viewbob_offset_y;
+      int distance_from_top = y + (wall_height / 2) - (WINDOW_HEIGHT / 2) - player.viewbob_offset;
       int texture_offset_y = (distance_from_top * ((float)texture_height / wall_height));
 
       // set the color of the wall based on the color from the texture

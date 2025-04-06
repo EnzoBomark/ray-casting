@@ -7,7 +7,7 @@ static sprite_t sprites[NUM_SPRITES] = {
   {.x = 240, .y = 430, .texture = 11 }
 };
 
-void render_sprite_projection(float viewbob_offset_y) {
+void render_sprite_projection(void) {
   sprite_t visible_sprites[NUM_SPRITES];
   int num_visible_sprites = 0;
 
@@ -56,10 +56,10 @@ void render_sprite_projection(float viewbob_offset_y) {
     float sprite_height = (TILE_SIZE / perp_distance) * DIST_PROJ_PLANE;
     float sprite_width = sprite_height;
 
-    float sprite_top_y = (WINDOW_HEIGHT / 2) - (sprite_height / 2) + viewbob_offset_y;
+    float sprite_top_y = (WINDOW_HEIGHT / 2) - (sprite_height / 2) + player.viewbob_offset;
     sprite_top_y = (sprite_top_y < 0) ? 0 : sprite_top_y;
 
-    float sprite_bottom_y = (WINDOW_HEIGHT / 2) + (sprite_height / 2) + viewbob_offset_y;
+    float sprite_bottom_y = (WINDOW_HEIGHT / 2) + (sprite_height / 2) + player.viewbob_offset;
     sprite_bottom_y = (sprite_bottom_y > WINDOW_HEIGHT) ? WINDOW_HEIGHT : sprite_bottom_y;
 
     float sprite_angle = atan2(sprite.y - player.y, sprite.x - player.x) - player.rotation_angle;
@@ -76,7 +76,7 @@ void render_sprite_projection(float viewbob_offset_y) {
 
       for (int y = sprite_top_y; y < sprite_bottom_y; y++) {
         if (x > 0 && x < WINDOW_WIDTH && y > 0 && y < WINDOW_HEIGHT) {
-          int distance_from_top = y + (sprite_height / 2) - (WINDOW_HEIGHT / 2) - viewbob_offset_y;
+          int distance_from_top = y + (sprite_height / 2) - (WINDOW_HEIGHT / 2) - player.viewbob_offset;
           int texture_offset_y = distance_from_top * ((float)texture_height / sprite_height);
 
           int buffer_position = (texture_width * texture_offset_y) + texture_offset_x;

@@ -102,51 +102,17 @@ void update(void) {
   float delta_time = (SDL_GetTicks() - game_state.last_frame_time) / 1000.0f;
   game_state.last_frame_time = SDL_GetTicks();
 
-  move_player(delta_time);
+  player_movement(delta_time);
+  player_viewbob(delta_time);
   cast_all_rays();
 };
 
-float viewbob_timer = 0.0f;           // Time-based bobbing progress
-float viewbob_speed = 75.0f;          // Speed of the bobbing (increase)
-float viewbob_amount = 2.0f;         // Amount of up/down motion (increase)
-float viewbob_step_intensity = 8.0f;  // Intensity of the "step thump" (increase)
-float viewbob_step_frequency = 0.3f;  // How often the steps are "thumping" (0.3 = faster thump)
-float step_timer = 0.0f;  // Time until the next step event
-
 void render(void) {
-  render_clear();
   clear_color_buffer(0xFFFF0000);
+  render_clear();
 
-  float delta_time = (SDL_GetTicks() - game_state.last_frame_time) / 1000.0f;
-
-  if (player.walk_direction != 0 || player.strafe_direction != 0) {
-    viewbob_timer += delta_time * viewbob_speed;
-    step_timer += delta_time;
-  }
-
-  float vertical_bob = sin(viewbob_timer) * viewbob_amount;
-
-  if (step_timer >= viewbob_step_frequency) {
-    vertical_bob += sin(viewbob_timer) * viewbob_step_intensity;
-    step_timer = 0.0f;
-  }
-
-  static float smoothed_bob = 0.0f;
-
-  if (player.walk_direction != 0 || player.strafe_direction != 0) {
-    smoothed_bob = vertical_bob;
-  } else {
-    smoothed_bob = lerp(smoothed_bob, 0.0f, 0.1f);
-  }
-
-  float viewbob_offset_y = smoothed_bob;
-
-
-  render_wall_projection(viewbob_offset_y);
-  render_sprite_projection(viewbob_offset_y);
-
-  char debug_text[256];
-  snprintf(debug_text, sizeof(debug_text), "Player X: %.2f | Player Y: %.2f | Angle: %.2f | Viewbob Y: %.2f", player.x, player.y, player.rotation_angle * (180.0f / M_PI), viewbob_offset_y);
+  render_wall_projection();
+  render_sprite_projection();
 
   render_map_grid();
   render_map_rays();
@@ -154,7 +120,11 @@ void render(void) {
   render_map_sprites();
 
   render_color_buffer();
+
+  char debug_text[256];
+  snprintf(debug_text, sizeof(debug_text), "Player X: %.2f | Player Y: %.2f | Angle: %.2f | Viewbob offset: %.2f", player.x, player.y, player.rotation_angle * (180.0f / M_PI), player.viewbob_offset);
   render_debug_menu(debug_text);
+
   render_present();
 };
 
