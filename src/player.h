@@ -14,6 +14,8 @@ typedef struct {
   float walk_velocity;
   float rotation_angle;
   float viewbob_offset;
+  float weaponbob_offset;
+  float weaponbob_scale;
   float move_dx;
   float move_dy;
   int walk_forward;
@@ -26,6 +28,7 @@ extern player_t player;
 
 void player_movement(float delta_time);
 void player_viewbob(float delta_time);
+void player_weaponbob(float delta_time);
 void render_map_player(void);
 
 #endif

@@ -8,6 +8,8 @@ player_t player = {
   .walk_velocity = 200,
   .rotation_angle = PI / 2,
   .viewbob_offset = 0,
+  .weaponbob_offset = 0,
+  .weaponbob_scale = 0,
   .walk_forward = 0,
   .walk_backward = 0,
   .strafe_left = 0,
@@ -58,8 +60,8 @@ void player_movement(float delta_time) {
 }
 
 float viewbob_timer = 0.0;                 // Time-based bobbing progress
-const float viewbob_speed = 10.0;          // Speed of the bobbing (increase)
-const float viewbob_amount = 3.0;          // Amount of up/down motion (increase)
+const float viewbob_speed = 15.0;          // Speed of the bobbing (increase)
+const float viewbob_amount = 2.0;          // Amount of up/down motion (increase)
 
 void player_viewbob(float delta_time) {
   int walk_direction = player.walk_forward - player.walk_backward;
@@ -75,6 +77,35 @@ void player_viewbob(float delta_time) {
     player.viewbob_offset = vertical_bob;
   } else {
     player.viewbob_offset = lerp(player.viewbob_offset, 0.0, delta_time * 10.0);
+  }
+}
+
+float weaponbob_offset_timer = 0.0;
+const float weaponbob_offset_speed = 10.0;
+const float weaponbob_offset_amount = 5.0;
+
+float weaponbob_scale_timer = 0.0;
+const float weaponbob_scale_speed = 20;
+const float weaponbob_scale_amount = 0.1;
+
+void player_weaponbob(float delta_time) {
+  int walk_direction = player.walk_forward - player.walk_backward;
+  int strafe_direction = player.strafe_left - player.strafe_right;
+
+  if (walk_direction != 0 || strafe_direction != 0) {
+    weaponbob_offset_timer += delta_time * weaponbob_offset_speed;
+    weaponbob_scale_timer += delta_time * weaponbob_scale_speed;
+  }
+
+  float horizontal = sin(weaponbob_offset_timer) * weaponbob_offset_amount;
+  float scale = (sin(weaponbob_scale_timer) * weaponbob_scale_amount);
+
+  if (walk_direction != 0 || strafe_direction != 0) {
+    player.weaponbob_offset = horizontal;
+    player.weaponbob_scale = scale;
+  } else {
+    player.weaponbob_offset = lerp(player.weaponbob_offset, 0.0, delta_time * 10.0);
+    player.weaponbob_scale = lerp(player.weaponbob_scale, 0.0, delta_time * 10.0);
   }
 }
 

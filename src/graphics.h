@@ -19,5 +19,6 @@ void draw_rect(int x, int y, int width, int height, color_t color);
 void draw_line(int x0, int y0, int x1, int y1, color_t color);
 
 void render_debug_menu(char* debug_text);
+void render_crosshair(void);
 
 #endif

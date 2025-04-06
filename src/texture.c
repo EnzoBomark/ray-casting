@@ -3,21 +3,28 @@
 
 static const char* texture_paths[NUM_TEXTURES] = {
   // walls
-  "./assets/images/redbrick.png",     // 1
-  "./assets/images/purplestone.png",  // 2
-  "./assets/images/mossystone.png",   // 3
-  "./assets/images/graystone.png",    // 4
-  "./assets/images/colorstone.png",   // 5
-  "./assets/images/bluestone.png",    // 6
-  "./assets/images/wood.png",         // 7
-  "./assets/images/eagle.png",        // 8
+  "./assets/textures/redbrick.png",     // 0
+  "./assets/textures/purplestone.png",  // 1
+  "./assets/textures/mossystone.png",   // 2
+  "./assets/textures/graystone.png",    // 3
+  "./assets/textures/colorstone.png",   // 4
+  "./assets/textures/bluestone.png",    // 5
+  "./assets/textures/wood.png",         // 6
+  "./assets/textures/eagle.png",        // 7
 
   // sprites
-  "./assets/images/armor.png",   // 9
-  "./assets/images/barrel.png",  // 10
-  "./assets/images/guard.png",   // 11
-  "./assets/images/light.png",   // 12
-  "./assets/images/table.png",   // 13
+  "./assets/sprites/armor.png",   // 8
+  "./assets/sprites/barrel.png",  // 9
+  "./assets/sprites/guard.png",   // 10
+  "./assets/sprites/light.png",   // 11
+  "./assets/sprites/table.png",   // 12
+
+  // handgun
+  "./assets/weapons/handgun-1.png", // 13
+  "./assets/weapons/handgun-2.png", // 14
+  "./assets/weapons/handgun-3.png", // 15
+  "./assets/weapons/handgun-4.png", // 16
+  "./assets/weapons/handgun-5.png", // 17
 };
 
 void load_textures(void) {

@@ -12,6 +12,7 @@
 #include "sprite.h"
 #include "texture.h"
 #include "font.h"
+#include "weapon.h"
 
 typedef struct {
   bool is_running;
@@ -40,6 +41,8 @@ void on_key_down(SDL_Keycode code) {
   case SDLK_a:
     player.strafe_left = 1;
     break;
+  case SDLK_r:
+    reload_weapon();
   default:
     break;
   }
@@ -81,6 +84,11 @@ void process_input(void) {
       player.rotation_angle += (event.motion.xrel * 0.001f);
       normalize_angle(&player.rotation_angle);
       break;
+    case SDL_MOUSEBUTTONDOWN:
+      if (event.button.button == SDL_BUTTON_LEFT) {
+        fire_weapon();
+      }
+      break;
     default:
       break;
     }
@@ -90,6 +98,7 @@ void process_input(void) {
 void setup(void) {
   load_font();
   load_textures();
+  load_weapons();
 };
 
 void update(void) {
@@ -104,6 +113,7 @@ void update(void) {
 
   player_movement(delta_time);
   player_viewbob(delta_time);
+  player_weaponbob(delta_time);
   cast_all_rays();
 };
 
@@ -113,16 +123,19 @@ void render(void) {
 
   render_wall_projection();
   render_sprite_projection();
+  render_weapon();
 
-  render_map_grid();
-  render_map_rays();
-  render_map_player();
-  render_map_sprites();
+  // render_map_grid();
+  // render_map_rays();
+  // render_map_player();
+  // render_map_sprites();
 
   render_color_buffer();
 
+  // render_crosshair();
+
   char debug_text[256];
-  snprintf(debug_text, sizeof(debug_text), "Player X: %.2f | Player Y: %.2f | Angle: %.2f | Viewbob offset: %.2f", player.x, player.y, player.rotation_angle * (180.0f / M_PI), player.viewbob_offset);
+  snprintf(debug_text, sizeof(debug_text), "Ammo: %d | Max Ammo: %d", weapon.ammo, weapon.max_ammo);
   render_debug_menu(debug_text);
 
   render_present();

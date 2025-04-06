@@ -70,6 +70,9 @@ void render_sprite_projection(void) {
     int texture_width = upng_get_width(textures[sprite.texture]);
     int texture_height = upng_get_height(textures[sprite.texture]);
 
+    color_t* wall_texture_buffer = (color_t*)upng_get_buffer(textures[sprite.texture]);
+    size_t buffer_size = upng_get_size(textures[sprite.texture]);
+
     for (int x = sprite_left_x; x < sprite_right_x; x++) {
       float texel_width = (texture_width / sprite_width);
       int texture_offset_x = (x - sprite_left_x) * texel_width;
@@ -80,8 +83,6 @@ void render_sprite_projection(void) {
           int texture_offset_y = distance_from_top * ((float)texture_height / sprite_height);
 
           int buffer_position = (texture_width * texture_offset_y) + texture_offset_x;
-          color_t* wall_texture_buffer = (color_t*)upng_get_buffer(textures[sprite.texture]);
-          size_t buffer_size = upng_get_size(textures[sprite.texture]);
 
           if (buffer_position < 0) {
             buffer_position = 0;

@@ -7,7 +7,7 @@
 #include "defs.h"
 #include "upng.h"
 
-#define NUM_TEXTURES 13
+#define NUM_TEXTURES 18
 
 upng_t* textures[NUM_TEXTURES];
 
