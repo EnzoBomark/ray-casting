@@ -5,6 +5,7 @@
 #include <stdbool.h>
 #include <SDL2/SDL.h>
 #include "defs.h"
+#include "texture.h"
 
 void initialize_window(void);
 void destroy_window(void);

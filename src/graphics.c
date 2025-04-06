@@ -52,6 +52,7 @@ void initialize_window(void) {
 
 void destroy_window(void) {
   free(graphics.color_buffer);
+  free_textures();
   SDL_DestroyTexture(graphics.color_buffer_texture);
   SDL_DestroyRenderer(graphics.renderer);
   SDL_DestroyWindow(graphics.window);

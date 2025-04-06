@@ -14,6 +14,8 @@ player_t player = {
 
 void move_player(float delta_time) {
   player.rotation_angle += player.turn_direction * player.turn_velocity * delta_time;
+  normalize_angle(&player.rotation_angle);
+
   float move = player.walk_direction * player.walk_velocity * delta_time;
   float new_player_x = player.x + move * cos(player.rotation_angle);
   float new_player_y = player.y + move * sin(player.rotation_angle);
@@ -24,7 +26,7 @@ void move_player(float delta_time) {
   }
 }
 
-void render_player(void) {
+void render_map_player(void) {
   draw_rect(
     player.x * MINIMAP_SCALE_FACTOR,
     player.y * MINIMAP_SCALE_FACTOR,

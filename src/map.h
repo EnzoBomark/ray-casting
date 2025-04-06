@@ -11,6 +11,6 @@
 bool has_map_wall_at(float x, float y);
 bool is_inside_map(float x, float y);
 int get_map_wall_at(float x, float y);
-void render_map(void);
+void render_map_grid(void);
 
 #endif

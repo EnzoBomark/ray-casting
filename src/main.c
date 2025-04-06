@@ -7,6 +7,7 @@
 #include "player.h"
 #include "ray.h"
 #include "wall.h"
+#include "sprite.h"
 #include "texture.h"
 
 typedef struct {
@@ -80,7 +81,7 @@ void process_input(void) {
 }
 
 void setup(void) {
-  load_wall_textures();
+  load_textures();
 };
 
 void update(void) {
@@ -100,10 +101,12 @@ void update(void) {
 void render(void) {
   clear_color_buffer(0xFFFF0000);
   render_wall_projection();
+  render_sprite_projection();
 
-  render_map();
-  render_rays();
-  render_player();
+  render_map_grid();
+  render_map_rays();
+  render_map_player();
+  render_map_sprites();
 
   render_color_buffer();
 };

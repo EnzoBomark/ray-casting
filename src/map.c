@@ -40,7 +40,7 @@ bool is_inside_map(float x, float y) {
   return (x >= 0 && x <= MAP_NUM_COLS * TILE_SIZE && y >= 0 && y <= MAP_NUM_ROWS * TILE_SIZE);
 }
 
-void render_map() {
+void render_map_grid() {
   for (int y = 0; y < MAP_NUM_ROWS; y++) {
     for (int x = 0; x < MAP_NUM_COLS; x++) {
       int tile_x = x * TILE_SIZE;
