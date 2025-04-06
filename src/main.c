@@ -107,8 +107,8 @@ void update(void) {
 };
 
 float viewbob_timer = 0.0f;           // Time-based bobbing progress
-float viewbob_speed = 70.0f;          // Speed of the bobbing (increase)
-float viewbob_amount = 4.0f;         // Amount of up/down motion (increase)
+float viewbob_speed = 75.0f;          // Speed of the bobbing (increase)
+float viewbob_amount = 2.0f;         // Amount of up/down motion (increase)
 float viewbob_step_intensity = 8.0f;  // Intensity of the "step thump" (increase)
 float viewbob_step_frequency = 0.3f;  // How often the steps are "thumping" (0.3 = faster thump)
 float step_timer = 0.0f;  // Time until the next step event
@@ -146,8 +146,7 @@ void render(void) {
   render_sprite_projection(viewbob_offset_y);
 
   char debug_text[256];
-  snprintf(debug_text, sizeof(debug_text), "FPS: %d | Player X: %.2f | Player Y: %.2f | Angle: %.2f | Viewbob Y: %.2f",
-    (int)(1.0f / delta_time), player.x, player.y, player.rotation_angle * (180.0f / M_PI), viewbob_offset_y);
+  snprintf(debug_text, sizeof(debug_text), "Player X: %.2f | Player Y: %.2f | Angle: %.2f | Viewbob Y: %.2f", player.x, player.y, player.rotation_angle * (180.0f / M_PI), viewbob_offset_y);
 
   render_map_grid();
   render_map_rays();

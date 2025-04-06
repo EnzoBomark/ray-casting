@@ -111,8 +111,8 @@ void render_sprite_projection(float viewbob_offset_y) {
 void render_map_sprites(void) {
   for (int i = 0; i < NUM_SPRITES; i++) {
     draw_rect(
-      sprites[i].x * MINIMAP_SCALE_FACTOR,
-      sprites[i].y * MINIMAP_SCALE_FACTOR,
+      (sprites[i].x * MINIMAP_SCALE_FACTOR) + MINIMAP_X_OFFSET,
+      (sprites[i].y * MINIMAP_SCALE_FACTOR) + MINIMAP_Y_OFFSET,
       3,
       3,
       (sprites[i].visible ? 0xFF00FF00 : 0xFF333333)

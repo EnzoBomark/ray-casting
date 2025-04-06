@@ -37,8 +37,8 @@ void move_player(float delta_time) {
 
 void render_map_player(void) {
   draw_rect(
-    player.x * MINIMAP_SCALE_FACTOR,
-    player.y * MINIMAP_SCALE_FACTOR,
+    (player.x * MINIMAP_SCALE_FACTOR) + MINIMAP_X_OFFSET,
+    (player.y * MINIMAP_SCALE_FACTOR) + MINIMAP_Y_OFFSET,
     player.width * MINIMAP_SCALE_FACTOR,
     player.height * MINIMAP_SCALE_FACTOR,
     0xFFFFFFFF

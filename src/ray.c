@@ -133,10 +133,10 @@ void cast_all_rays(void) {
 void render_map_rays(void) {
   for (int i = 0; i < NUM_RAYS; i += 50) {
     draw_line(
-      player.x * MINIMAP_SCALE_FACTOR,
-      player.y * MINIMAP_SCALE_FACTOR,
-      rays[i].wall_hit_x * MINIMAP_SCALE_FACTOR,
-      rays[i].wall_hit_y * MINIMAP_SCALE_FACTOR,
+      (player.x * MINIMAP_SCALE_FACTOR) + MINIMAP_X_OFFSET,
+      (player.y * MINIMAP_SCALE_FACTOR) + MINIMAP_Y_OFFSET,
+      (rays[i].wall_hit_x * MINIMAP_SCALE_FACTOR) + MINIMAP_X_OFFSET,
+      (rays[i].wall_hit_y * MINIMAP_SCALE_FACTOR) + MINIMAP_Y_OFFSET,
       0xFF0000FF
     );
   }

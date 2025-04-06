@@ -47,8 +47,8 @@ void render_map_grid() {
       int tile_y = y * TILE_SIZE;
       color_t tile_color = map[y][x] != 0 ? 0xFFFFFFFF : 0xFF000000;
       draw_rect(
-        tile_x * MINIMAP_SCALE_FACTOR,
-        tile_y * MINIMAP_SCALE_FACTOR,
+        (tile_x * MINIMAP_SCALE_FACTOR) + MINIMAP_X_OFFSET,
+        (tile_y * MINIMAP_SCALE_FACTOR) + MINIMAP_Y_OFFSET,
         TILE_SIZE * MINIMAP_SCALE_FACTOR,
         TILE_SIZE * MINIMAP_SCALE_FACTOR,
         tile_color
