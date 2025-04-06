@@ -251,14 +251,12 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
           if (i + 1 == bitlen[n]) {	/*last bit */
             tree->tree2d[2 * treepos + bit] = n;	/*put the current code in it */
             treepos = 0;
-          }
-          else {	/*put address of the next step in here, first that address has to be found of course (it's just nodefilled + 1)... */
+          } else {	/*put address of the next step in here, first that address has to be found of course (it's just nodefilled + 1)... */
             nodefilled++;
             tree->tree2d[2 * treepos + bit] = nodefilled + tree->numcodes;	/*addresses encoded with numcodes added to it */
             treepos = nodefilled;
           }
-        }
-        else {
+        } else {
           treepos = tree->tree2d[2 * treepos + bit] - tree->numcodes;
         }
       }
@@ -324,8 +322,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
     for (i = 0; i < NUM_CODE_LENGTH_CODES; i++) {
       if (i < hclen) {
         codelengthcode[CLCL[i]] = read_bits(bp, in, 3);
-      }
-      else {
+      } else {
         codelengthcode[CLCL[i]] = 0;	/*if not, it must stay 0 */
       }
     }
@@ -348,13 +345,11 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       if (code <= 15) {	/*a length code */
         if (i < hlit) {
           bitlen[i] = code;
-        }
-        else {
+        } else {
           bitlenD[i - hlit] = code;
         }
         i++;
-      }
-      else if (code == 16) {	/*repeat previous */
+      } else if (code == 16) {	/*repeat previous */
         unsigned replength = 3;	/*read in the 2 bits that indicate repeat length (3-6) */
         unsigned value;	/*set value to the previous code */
 
@@ -367,8 +362,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
 
         if ((i - 1) < hlit) {
           value = bitlen[i - 1];
-        }
-        else {
+        } else {
           value = bitlenD[i - hlit - 1];
         }
 
@@ -382,14 +376,12 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
 
           if (i < hlit) {
             bitlen[i] = value;
-          }
-          else {
+          } else {
             bitlenD[i - hlit] = value;
           }
           i++;
         }
-      }
-      else if (code == 17) {	/*repeat "0" 3-10 times */
+      } else if (code == 17) {	/*repeat "0" 3-10 times */
         unsigned replength = 3;	/*read in the bits that indicate repeat length */
         if ((*bp) >> 3 >= inlength) {
           SET_ERROR(upng, UPNG_EMALFORMED);
@@ -409,14 +401,12 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
 
           if (i < hlit) {
             bitlen[i] = 0;
-          }
-          else {
+          } else {
             bitlenD[i - hlit] = 0;
           }
           i++;
         }
-      }
-      else if (code == 18) {	/*repeat "0" 11-138 times */
+      } else if (code == 18) {	/*repeat "0" 11-138 times */
         unsigned replength = 11;	/*read in the bits that indicate repeat length */
         /* error, bit pointer jumps past memory */
         if ((*bp) >> 3 >= inlength) {
@@ -439,8 +429,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
             bitlenD[i - hlit] = 0;
           i++;
         }
-      }
-      else {
+      } else {
         /* somehow an unexisting code appeared. This can never happen. */
         SET_ERROR(upng, UPNG_EMALFORMED);
         break;
@@ -475,8 +464,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       /* fixed trees */
       huffman_tree_init(&codetree, (unsigned*)FIXED_DEFLATE_CODE_TREE, NUM_DEFLATE_CODE_SYMBOLS, DEFLATE_CODE_BITLEN);
       huffman_tree_init(&codetreeD, (unsigned*)FIXED_DISTANCE_TREE, NUM_DISTANCE_SYMBOLS, DISTANCE_BITLEN);
-    }
-    else if (btype == 2) {
+    } else if (btype == 2) {
       /* dynamic trees */
       unsigned codelengthcodetree_buffer[CODE_LENGTH_BUFFER_SIZE];
       huffman_tree codelengthcodetree;
@@ -496,8 +484,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       if (code == 256) {
         /* end code */
         done = 1;
-      }
-      else if (code <= 255) {
+      } else if (code <= 255) {
         /* literal symbol */
         if ((*pos) >= outsize) {
           SET_ERROR(upng, UPNG_EMALFORMED);
@@ -506,8 +493,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
 
         /* store output */
         out[(*pos)++] = (unsigned char)(code);
-      }
-      else if (code >= FIRST_LENGTH_CODE_INDEX && code <= LAST_LENGTH_CODE_INDEX) {	/*length code */
+      } else if (code >= FIRST_LENGTH_CODE_INDEX && code <= LAST_LENGTH_CODE_INDEX) {	/*length code */
         /* part 1: get length base */
         unsigned long length = LENGTH_BASE[code - FIRST_LENGTH_CODE_INDEX];
         unsigned codeD, distance, numextrabitsD;
@@ -640,11 +626,9 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       if (btype == 3) {
         SET_ERROR(upng, UPNG_EMALFORMED);
         return upng->error;
-      }
-      else if (btype == 0) {
+      } else if (btype == 0) {
         inflate_uncompressed(upng, out, outsize, &in[inpos], &bp, &pos, insize);	/*no compression */
-      }
-      else {
+      } else {
         inflate_huffman(upng, out, outsize, &in[inpos], &bp, &pos, insize, btype);	/*compression, btype 01 or 10 */
       }
 
@@ -741,8 +725,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
           recon[i] = scanline[i] + precon[i] / 2;
         for (i = bytewidth; i < length; i++)
           recon[i] = scanline[i] + ((recon[i - bytewidth] + precon[i]) / 2);
-      }
-      else {
+      } else {
         for (i = 0; i < bytewidth; i++)
           recon[i] = scanline[i];
         for (i = bytewidth; i < length; i++)
@@ -755,8 +738,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
           recon[i] = (unsigned char)(scanline[i] + paeth_predictor(0, precon[i], 0));
         for (i = bytewidth; i < length; i++)
           recon[i] = (unsigned char)(scanline[i] + paeth_predictor(recon[i - bytewidth], precon[i], precon[i - bytewidth]));
-      }
-      else {
+      } else {
         for (i = 0; i < bytewidth; i++)
           recon[i] = scanline[i];
         for (i = bytewidth; i < length; i++)
@@ -844,8 +826,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
         return;
       }
       remove_padding_bits(out, in, w * bpp, ((w * bpp + 7) / 8) * 8, h);
-    }
-    else {
+    } else {
       unfilter(upng, out, in, w, h, bpp);	/*we can immediatly filter into the out buffer, no other steps needed */
     }
   }
@@ -1047,11 +1028,9 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       /* parse chunks */
       if (upng_chunk_type(chunk) == CHUNK_IDAT) {
         compressed_size += length;
-      }
-      else if (upng_chunk_type(chunk) == CHUNK_IEND) {
+      } else if (upng_chunk_type(chunk) == CHUNK_IEND) {
         break;
-      }
-      else if (upng_chunk_critical(chunk)) {
+      } else if (upng_chunk_critical(chunk)) {
         SET_ERROR(upng, UPNG_EUNSUPPORTED);
         return upng->error;
       }
@@ -1080,8 +1059,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       if (upng_chunk_type(chunk) == CHUNK_IDAT) {
         memcpy(compressed + compressed_index, data, length);
         compressed_index += length;
-      }
-      else if (upng_chunk_type(chunk) == CHUNK_IEND) {
+      } else if (upng_chunk_type(chunk) == CHUNK_IEND) {
         break;
       }
 
@@ -1126,8 +1104,7 @@ static const unsigned CLCL[NUM_CODE_LENGTH_CODES]	/*the order in which "code len
       free(upng->buffer);
       upng->buffer = NULL;
       upng->size = 0;
-    }
-    else {
+    } else {
       upng->state = UPNG_DECODED;
     }
 

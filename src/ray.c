@@ -55,8 +55,7 @@ void cast_ray(float ray_angle, int ray_index) {
       horz_wall_texture = get_map_wall_at(x_to_check, y_to_check);
       found_horz_wall_hit = true;
       break;
-    }
-    else {
+    } else {
       next_horz_touch_x += x_step;
       next_horz_touch_y += y_step;
     }
@@ -92,8 +91,7 @@ void cast_ray(float ray_angle, int ray_index) {
       vert_wall_texture = get_map_wall_at(x_to_check, y_to_check);
       found_vert_wall_hit = true;
       break;
-    }
-    else {
+    } else {
       next_vert_touch_x += x_step;
       next_vert_touch_y += y_step;
     }
@@ -114,8 +112,7 @@ void cast_ray(float ray_angle, int ray_index) {
     rays[ray_index].distance = horz_hit_distance;
     rays[ray_index].was_wall_hit_vert = false;
     rays[ray_index].angle = ray_angle;
-  }
-  else {
+  } else {
     rays[ray_index].wall_hit_texture = vert_wall_texture;
     rays[ray_index].wall_hit_x = vert_wall_hit_x;
     rays[ray_index].wall_hit_y = vert_wall_hit_y;

@@ -17,7 +17,7 @@ typedef struct {
   int texture;
 } sprite_t;
 
-void render_sprite_projection(void);
+void render_sprite_projection(float viewbob_offset_y);
 void render_map_sprites(void);
 
 #endif

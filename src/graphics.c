@@ -48,15 +48,28 @@ void initialize_window(void) {
     WINDOW_WIDTH,
     WINDOW_HEIGHT
   );
+
+  SDL_SetRelativeMouseMode(SDL_TRUE);
+  SDL_ShowCursor(SDL_DISABLE);
 }
 
 void destroy_window(void) {
   free(graphics.color_buffer);
   free_textures();
+  free_font();
   SDL_DestroyTexture(graphics.color_buffer_texture);
   SDL_DestroyRenderer(graphics.renderer);
   SDL_DestroyWindow(graphics.window);
   SDL_Quit();
+}
+
+void render_clear(void) {
+  SDL_SetRenderDrawColor(graphics.renderer, 0, 255, 0, 255);
+  SDL_RenderClear(graphics.renderer);
+}
+
+void render_present(void) {
+  SDL_RenderPresent(graphics.renderer);
 }
 
 void clear_color_buffer(color_t color) {
@@ -74,7 +87,6 @@ void render_color_buffer(void) {
   );
 
   SDL_RenderCopy(graphics.renderer, graphics.color_buffer_texture, NULL, NULL);
-  SDL_RenderPresent(graphics.renderer);
 }
 
 void draw_pixel(int x, int y, color_t color) {
@@ -106,4 +118,34 @@ void draw_line(int x0, int y0, int x1, int y1, color_t color) {
     current_x += x_increment;
     current_y += y_increment;
   }
+}
+
+void render_debug_menu(char* debug_text) {
+  SDL_Color text_color = { 255, 255, 255, 255 };
+
+  SDL_Surface* text_surface = TTF_RenderText_Solid(font, debug_text, text_color);
+  ASSERT(text_surface, "Failed to create text surface: %s\n", TTF_GetError());
+
+  SDL_Texture* text_texture = SDL_CreateTextureFromSurface(graphics.renderer, text_surface);
+  ASSERT(text_texture, "Failed to create text texture: %s\n", SDL_GetError());
+
+
+  int text_width = text_surface->w;
+  int text_height = text_surface->h;
+
+  SDL_DisplayMode display_mode;
+  SDL_GetCurrentDisplayMode(0, &display_mode);
+  int fullscreen_width = display_mode.w;
+  int fullscreen_height = display_mode.h;
+
+  SDL_Rect text_rect = {
+      (fullscreen_width / 2) - (text_width / 2),
+      fullscreen_height - 100,
+      text_width,
+      text_height
+  };
+
+  SDL_RenderCopy(graphics.renderer, text_texture, NULL, &text_rect);
+  SDL_FreeSurface(text_surface);
+  SDL_DestroyTexture(text_texture);
 }

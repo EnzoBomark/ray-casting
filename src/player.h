@@ -16,6 +16,7 @@ typedef struct {
   float rotation_angle;
   int turn_direction; // -1 => left, +1 => right
   int walk_direction; // -1 => back, +1 => front
+  int strafe_direction; // -1 => left, +1 => right
 } player_t;
 
 extern player_t player;

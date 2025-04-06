@@ -3,21 +3,21 @@
 
 static const char* texture_paths[NUM_TEXTURES] = {
   // walls
-  "./images/redbrick.png",     // 1
-  "./images/purplestone.png",  // 2
-  "./images/mossystone.png",   // 3
-  "./images/graystone.png",    // 4
-  "./images/colorstone.png",   // 5
-  "./images/bluestone.png",    // 6
-  "./images/wood.png",         // 7
-  "./images/eagle.png",        // 8
+  "./assets/images/redbrick.png",     // 1
+  "./assets/images/purplestone.png",  // 2
+  "./assets/images/mossystone.png",   // 3
+  "./assets/images/graystone.png",    // 4
+  "./assets/images/colorstone.png",   // 5
+  "./assets/images/bluestone.png",    // 6
+  "./assets/images/wood.png",         // 7
+  "./assets/images/eagle.png",        // 8
 
   // sprites
-  "./images/armor.png",   // 9
-  "./images/barrel.png",  // 10
-  "./images/guard.png",   // 11
-  "./images/light.png",   // 12
-  "./images/table.png",   // 13
+  "./assets/images/armor.png",   // 9
+  "./assets/images/barrel.png",  // 10
+  "./assets/images/guard.png",   // 11
+  "./assets/images/light.png",   // 12
+  "./assets/images/table.png",   // 13
 };
 
 void load_textures(void) {
@@ -28,8 +28,7 @@ void load_textures(void) {
 
       if (upng_get_error(upng) == UPNG_EOK) {
         textures[i] = upng;
-      }
-      else {
+      } else {
         printf("Error decoding texture %s \n", texture_paths[i]);
       }
     }

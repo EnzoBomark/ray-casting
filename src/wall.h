@@ -9,6 +9,6 @@
 #include "graphics.h"
 #include "texture.h"
 
-void render_wall_projection(void);
+void render_wall_projection(float viewbob_offset_y);
 
 #endif
