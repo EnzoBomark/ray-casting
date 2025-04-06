@@ -14,10 +14,12 @@ typedef struct {
   float walk_velocity;
   float rotation_angle;
   float viewbob_offset;
-  int walk_direction; // -1 => back, +1 => front
-  int strafe_direction; // -1 => left, +1 => right
   float move_dx;
   float move_dy;
+  int walk_forward;
+  int walk_backward;
+  int strafe_left;
+  int strafe_right;
 } player_t;
 
 extern player_t player;

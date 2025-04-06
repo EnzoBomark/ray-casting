@@ -29,16 +29,16 @@ void on_key_down(SDL_Keycode code) {
     game_state.is_running = false;
     break;
   case SDLK_w:
-    player.walk_direction = +1;
+    player.walk_forward = 1;
     break;
   case SDLK_s:
-    player.walk_direction = -1;
+    player.walk_backward = 1;
     break;
   case SDLK_d:
-    player.strafe_direction = +1;;
+    player.strafe_right = 1;;
     break;
   case SDLK_a:
-    player.strafe_direction = -1;
+    player.strafe_left = 1;
     break;
   default:
     break;
@@ -48,16 +48,16 @@ void on_key_down(SDL_Keycode code) {
 void on_key_up(SDL_Keycode code) {
   switch (code) {
   case SDLK_w:
-    player.walk_direction = 0;
+    player.walk_forward = 0;
     break;
   case SDLK_s:
-    player.walk_direction = 0;
+    player.walk_backward = 0;
     break;
   case SDLK_d:
-    player.strafe_direction = 0;
+    player.strafe_right = 0;;
     break;
   case SDLK_a:
-    player.strafe_direction = 0;
+    player.strafe_left = 0;
     break;
   default:
     break;

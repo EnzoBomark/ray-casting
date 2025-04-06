@@ -8,18 +8,20 @@ player_t player = {
   .walk_velocity = 200,
   .rotation_angle = PI / 2,
   .viewbob_offset = 0,
-  .walk_direction = 0,
-  .strafe_direction = 0,
+  .walk_forward = 0,
+  .walk_backward = 0,
+  .strafe_left = 0,
+  .strafe_right = 0,
 };
 
 const float smoothing = 15.0; // How quickly to interpolate
 
 void player_movement(float delta_time) {
-  float move_dx;
-  float move_dy;
+  int walk_direction = player.walk_forward - player.walk_backward;
+  int strafe_direction = player.strafe_right - player.strafe_left;
 
-  float target_walk_move = player.walk_direction * player.walk_velocity * delta_time;
-  float target_strafe_move = player.strafe_direction * player.walk_velocity * delta_time;
+  float target_walk_move = walk_direction * player.walk_velocity * delta_time;
+  float target_strafe_move = strafe_direction * player.walk_velocity * delta_time;
 
   // Normalize if moving diagonally
   float magnitude = sqrt(target_walk_move * target_walk_move + target_strafe_move * target_strafe_move);
@@ -60,13 +62,16 @@ const float viewbob_speed = 10.0;          // Speed of the bobbing (increase)
 const float viewbob_amount = 3.0;          // Amount of up/down motion (increase)
 
 void player_viewbob(float delta_time) {
-  if (player.walk_direction != 0 || player.strafe_direction != 0) {
+  int walk_direction = player.walk_forward - player.walk_backward;
+  int strafe_direction = player.strafe_left - player.strafe_right;
+
+  if (walk_direction != 0 || strafe_direction != 0) {
     viewbob_timer += delta_time * viewbob_speed;
   }
 
   float vertical_bob = sin(viewbob_timer) * viewbob_amount;
 
-  if (player.walk_direction != 0 || player.strafe_direction != 0) {
+  if (walk_direction != 0 || strafe_direction != 0) {
     player.viewbob_offset = vertical_bob;
   } else {
     player.viewbob_offset = lerp(player.viewbob_offset, 0.0, delta_time * 10.0);
