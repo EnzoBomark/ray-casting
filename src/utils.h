@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <limits.h>
+
 #include "defs.h"
 
 void normalize_angle(float* angle);

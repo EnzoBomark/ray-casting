@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include "defs.h"
+#include "game-state.h"
 #include "graphics.h"
 #include "map.h"
 #include "utils.h"
@@ -26,9 +27,9 @@ typedef struct {
 
 extern player_t player;
 
-void player_movement(float delta_time);
-void player_viewbob(float delta_time);
-void player_weaponbob(float delta_time);
+void player_movement(void);
+void player_viewbob(void);
+void player_weaponbob(void);
 void render_map_player(void);
 
 #endif

@@ -26,7 +26,7 @@ void render_sprite_projection(void) {
     angle_between_sprite_and_player = fabs(angle_between_sprite_and_player);
 
 
-    const float EPSILON = 0.2;
+    const float EPSILON = 0.2f;
     if (angle_between_sprite_and_player < (FOV_ANGLE / 2) + EPSILON) {
       sprites[i].visible = true;
       sprites[i].angle = angle_between_sprite_and_player;

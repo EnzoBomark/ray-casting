@@ -12,7 +12,7 @@ bool is_ray_facing_up(float angle) {
 }
 
 bool is_ray_facing_right(float angle) {
-  return angle < 0.5 * PI || angle > 1.5 * PI;
+  return angle < 0.5f * PI || angle > 1.5f * PI;
 }
 
 bool is_ray_facing_left(float angle) {

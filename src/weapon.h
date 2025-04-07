@@ -3,6 +3,7 @@
 
 #include "defs.h"
 #include "upng.h"
+#include "game-state.h"
 #include "graphics.h"
 #include "texture.h"
 #include "player.h"

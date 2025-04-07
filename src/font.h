@@ -3,8 +3,9 @@
 #define FONT_H
 
 #include <stdio.h>
-#include "defs.h"
 #include <SDL2/SDL_ttf.h>
+
+#include "defs.h"
 
 extern TTF_Font* font;
 

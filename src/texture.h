@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+
 #include "defs.h"
 #include "upng.h"
 

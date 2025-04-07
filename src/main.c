@@ -1,28 +1,21 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
-#include <stdio.h>
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdio.h>
+
 #include "defs.h"
+#include "font.h"
+#include "game-state.h"
 #include "graphics.h"
 #include "map.h"
 #include "player.h"
 #include "ray.h"
-#include "wall.h"
 #include "sprite.h"
 #include "texture.h"
-#include "font.h"
+#include "wall.h"
 #include "weapon.h"
 
-typedef struct {
-  bool is_running;
-  int last_frame_time;
-} GameState;
-
-static GameState game_state = {
-  .is_running = true,
-  .last_frame_time = 0,
-};
 
 void on_key_down(SDL_Keycode code) {
   switch (code) {
@@ -102,18 +95,12 @@ void setup(void) {
 };
 
 void update(void) {
-  int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - game_state.last_frame_time);
+  update_game_state();
 
-  if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
-    SDL_Delay(time_to_wait);
-  }
+  player_movement();
+  player_viewbob();
+  player_weaponbob();
 
-  float delta_time = (SDL_GetTicks() - game_state.last_frame_time) / 1000.0f;
-  game_state.last_frame_time = SDL_GetTicks();
-
-  player_movement(delta_time);
-  player_viewbob(delta_time);
-  player_weaponbob(delta_time);
   cast_all_rays();
 };
 
@@ -132,10 +119,9 @@ void render(void) {
 
   render_color_buffer();
 
-  // render_crosshair();
-
   char debug_text[256];
-  snprintf(debug_text, sizeof(debug_text), "Ammo: %d | Max Ammo: %d", weapon.ammo, weapon.max_ammo);
+  int fps = 1000 / (SDL_GetTicks() - game_state.last_frame_time);
+  snprintf(debug_text, sizeof(debug_text), "FPS: %d | Ammo: %d | Max Ammo: %d", fps, weapon.ammo, weapon.max_ammo);
   render_debug_menu(debug_text);
 
   render_present();

@@ -145,12 +145,14 @@ void render_debug_menu(char* debug_text) {
   };
 
   SDL_SetRenderDrawColor(graphics.renderer, 0, 0, 0, 128);
+
   SDL_Rect background_rect = {
       (fullscreen_width / 2) - ((text_width + 32) / 2),
       100 - 16,
       text_width + 32,
       text_height + 32
   };
+
   SDL_RenderFillRect(graphics.renderer, &background_rect);
   SDL_SetRenderDrawColor(graphics.renderer, 0, 0, 0, 255);
   SDL_RenderDrawRect(graphics.renderer, &background_rect);
@@ -158,23 +160,4 @@ void render_debug_menu(char* debug_text) {
   SDL_RenderCopy(graphics.renderer, text_texture, NULL, &text_rect);
   SDL_FreeSurface(text_surface);
   SDL_DestroyTexture(text_texture);
-}
-
-void render_crosshair(void) {
-  SDL_DisplayMode display_mode;
-  SDL_GetCurrentDisplayMode(0, &display_mode);
-  int fullscreen_width = display_mode.w;
-  int fullscreen_height = display_mode.h;
-
-  int crosshair_size = 5;
-  int crosshair_thickness = 2;
-
-  int center_x = fullscreen_width / 2;
-  int center_y = fullscreen_height / 2;
-
-  SDL_SetRenderDrawColor(graphics.renderer, 255, 255, 255, 255);
-  SDL_Rect horizontal_line = { center_x - crosshair_size, center_y - (crosshair_thickness / 2), crosshair_size * 2, crosshair_thickness };
-  SDL_RenderFillRect(graphics.renderer, &horizontal_line);
-  SDL_Rect vertical_line = { center_x - (crosshair_thickness / 2), center_y - crosshair_size, crosshair_thickness, crosshair_size * 2 };
-  SDL_RenderFillRect(graphics.renderer, &vertical_line);
 }

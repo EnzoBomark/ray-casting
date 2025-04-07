@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include <stdbool.h>
+
 #include "defs.h"
 #include "graphics.h"
 

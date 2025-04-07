@@ -3,6 +3,7 @@
 #define WALL_H
 
 #include <math.h>
+
 #include "defs.h"
 #include "graphics.h"
 #include "texture.h"

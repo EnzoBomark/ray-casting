@@ -1,8 +1,9 @@
 #ifndef RAY_H
 #define RAY_H
 
-#include <stdbool.h>
 #include <limits.h>
+#include <stdbool.h>
+
 #include "defs.h"
 #include "graphics.h"
 #include "player.h"
