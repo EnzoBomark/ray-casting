@@ -1,6 +1,8 @@
 #ifndef WEAPON_H
 #define WEAPON_H
 
+#include <SDL2/SDL.h>
+
 #include "defs.h"
 #include "upng.h"
 #include "game-state.h"
@@ -26,6 +28,6 @@ extern weapon_t weapon;
 void load_weapons(void);
 void render_weapon(void);
 void fire_weapon(void);
-void reload_weapon(void);
+void update_weapon(void);
 
 #endif

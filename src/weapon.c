@@ -73,15 +73,50 @@ void render_weapon(void) {
   }
 }
 
+float last_shot_time = 0.0;
+float fire_animation_timer = 0.0;
+
+int fire_animation_frame = 0;
+
+bool is_playing_fire_animation = false;
 
 void fire_weapon(void) {
-  if (weapon.ammo > 0) {
-    weapon.ammo--;
+  if (weapon.ammo <= 0) {
+    weapon.ammo = weapon.max_ammo;
   }
+
+
+  float time_since_last_shot = (SDL_GetTicks() - last_shot_time) / 1000.0f;
+
+  if (time_since_last_shot < weapon.fire_rate) {
+    return;
+  }
+
+  weapon.ammo--;
+
+  is_playing_fire_animation = true;
+  fire_animation_timer = 0.0f;
+  last_shot_time = SDL_GetTicks();
 }
 
-void reload_weapon(void) {
-  if (weapon.ammo < weapon.max_ammo) {
-    weapon.ammo = weapon.max_ammo;
+void update_weapon(void) {
+  if (is_playing_fire_animation) {
+    fire_animation_timer += game_state.delta_time;
+
+    float frame_duration = weapon.fire_rate / 8.0f;
+
+    if (fire_animation_timer >= frame_duration) {
+      fire_animation_timer = 0.0f;
+      fire_animation_frame++;
+
+      if (fire_animation_frame >= 4) {
+        fire_animation_frame = 0;
+        is_playing_fire_animation = false;
+      }
+    }
+
+    weapon.current_texture = fire_animation_frame;
+  } else {
+    weapon.current_texture = 0;
   }
 }

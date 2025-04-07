@@ -34,8 +34,6 @@ void on_key_down(SDL_Keycode code) {
   case SDLK_a:
     player.strafe_left = 1;
     break;
-  case SDLK_r:
-    reload_weapon();
   default:
     break;
   }
@@ -96,6 +94,8 @@ void setup(void) {
 
 void update(void) {
   update_game_state();
+
+  update_weapon();
 
   player_movement();
   player_viewbob();
