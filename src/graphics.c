@@ -14,7 +14,7 @@ static Graphics graphics = {
   .color_buffer = NULL,
 };
 
-void initialize_window(void) {
+void init_window(void) {
   ASSERT(!SDL_Init(SDL_INIT_EVERYTHING), "Error initializing SDL. %s", SDL_GetError());
 
   SDL_DisplayMode display_mode;

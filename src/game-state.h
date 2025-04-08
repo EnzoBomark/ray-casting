@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 #include "defs.h"
+#include "input.h"
 
 typedef struct {
   bool is_running;
@@ -15,6 +16,7 @@ typedef struct {
 
 extern game_state_t game_state;
 
+void quit(void);
 void update_game_state(void);
 
 #endif

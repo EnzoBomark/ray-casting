@@ -9,7 +9,7 @@
 #include "font.h"
 #include "texture.h"
 
-void initialize_window(void);
+void init_window(void);
 void destroy_window(void);
 void render_clear(void);
 void render_present(void);

@@ -16,9 +16,38 @@ player_t player = {
   .strafe_right = 0,
 };
 
-const float smoothing = 15.0f;
+void process_player_input(void) {
+  player.rotation_angle += get_mouse_motion_rel_x();
+  normalize_angle(&player.rotation_angle);
 
-void player_movement() {
+  if (is_key_pressed(SDLK_w) || is_key_down(SDLK_w)) {
+    player.walk_forward = 1;
+  } else {
+    player.walk_forward = 0;
+  }
+
+  if (is_key_pressed(SDLK_s) || is_key_down(SDLK_s)) {
+    player.walk_backward = 1;
+  } else {
+    player.walk_backward = 0;
+  }
+
+  if (is_key_pressed(SDLK_d) || is_key_down(SDLK_d)) {
+    player.strafe_right = 1;
+  } else {
+    player.strafe_right = 0;
+  }
+
+  if (is_key_pressed(SDLK_a) || is_key_down(SDLK_a)) {
+    player.strafe_left = 1;
+  } else {
+    player.strafe_left = 0;
+  }
+}
+
+const float SMOOTHING = 15.0f;
+
+void player_movement(void) {
   int walk_direction = player.walk_forward - player.walk_backward;
   int strafe_direction = player.strafe_right - player.strafe_left;
 
@@ -39,8 +68,8 @@ void player_movement() {
   float target_move_dy = target_walk_move * sin(player.rotation_angle) + target_strafe_move * cos(player.rotation_angle);
 
   // Smoothly interpolate current movement towards target movement
-  player.move_dx = lerp(player.move_dx, target_move_dx, game_state.delta_time * smoothing);
-  player.move_dy = lerp(player.move_dy, target_move_dy, game_state.delta_time * smoothing);
+  player.move_dx = lerp(player.move_dx, target_move_dx, game_state.delta_time * SMOOTHING);
+  player.move_dy = lerp(player.move_dy, target_move_dy, game_state.delta_time * SMOOTHING);
 
   float new_player_x = player.x + player.move_dx;
   float new_player_y = player.y + player.move_dy;
@@ -59,11 +88,11 @@ void player_movement() {
   }
 }
 
-float viewbob_timer = 0.0f;                 // Time-based bobbing progress
-const float viewbob_speed = 20.0f;          // Speed of the bobbing (increase)
-const float viewbob_amount = 2.0f;          // Amount of up/down motion (increase)
+float viewbob_timer = 0.0f;
+const float viewbob_speed = 20.0f;
+const float viewbob_amount = 2.0f;
 
-void player_viewbob() {
+void player_viewbob(void) {
   int walk_direction = player.walk_forward - player.walk_backward;
   int strafe_direction = player.strafe_left - player.strafe_right;
 
@@ -88,7 +117,7 @@ float weaponbob_scale_timer = 0.0f;
 const float weaponbob_scale_speed = 20.0f;
 const float weaponbob_scale_amount = 0.1f;
 
-void player_weaponbob() {
+void player_weaponbob(void) {
   int walk_direction = player.walk_forward - player.walk_backward;
   int strafe_direction = player.strafe_left - player.strafe_right;
 
@@ -107,6 +136,13 @@ void player_weaponbob() {
     player.weaponbob_offset = lerp(player.weaponbob_offset, 0.0f, game_state.delta_time * 10.0f);
     player.weaponbob_scale = lerp(player.weaponbob_scale, 0.0f, game_state.delta_time * 10.0f);
   }
+}
+
+void update_player(void) {
+  process_player_input();
+  player_movement();
+  player_viewbob();
+  player_weaponbob();
 }
 
 void render_map_player(void) {

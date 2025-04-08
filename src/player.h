@@ -27,9 +27,7 @@ typedef struct {
 
 extern player_t player;
 
-void player_movement(void);
-void player_viewbob(void);
-void player_weaponbob(void);
+void update_player(void);
 void render_map_player(void);
 
 #endif

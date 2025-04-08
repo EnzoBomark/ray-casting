@@ -6,7 +6,15 @@ game_state_t game_state = {
  .delta_time = 0.0f
 };
 
+void quit(void) {
+  game_state.is_running = false;
+}
+
 void update_game_state(void) {
+  if (is_key_pressed(SDLK_ESCAPE)) {
+    quit();
+  }
+
   int time_to_wait = FRAME_TARGET_TIME - (SDL_GetTicks() - game_state.last_frame_time);
 
   if (time_to_wait > 0 && time_to_wait <= FRAME_TARGET_TIME) {
